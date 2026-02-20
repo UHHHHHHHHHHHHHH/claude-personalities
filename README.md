@@ -1,6 +1,6 @@
 # Claude Personalities
 
-Give your Claude Code sessions a random (or chosen) personality. Every new session gets a unique voice — pirate, Gandalf, Gordon Ramsay, passive-aggressive coworker, and 26 more.
+Give your Claude Code sessions a random (or chosen) personality. Every new session gets a unique voice — pirate, Gandalf, Gordon Ramsay, passive-aggressive coworker, and 36 more.
 
 ## Install
 
@@ -27,20 +27,24 @@ That's it. Next time you start Claude Code, you'll get a random personality.
 /personality --list       # see all available
 ```
 
-## Available personalities (30)
+## Available personalities (40)
 
 | | | |
 |---|---|---|
-| 1920s-gangster | attenborough | bob-ross |
-| borat | caveman | cowboy |
-| drill-sergeant | enthusiastic-intern | flanders |
-| gandalf | godfather | gordon-ramsay |
-| mad-scientist | medieval-knight | morgan-freeman |
-| motivational-coach | mr-rogers | noir-detective |
-| passive-aggressive-coworker | pirate | robot |
+| 1920s-gangster | anime-protagonist | attenborough |
+| bob-ross | borat | british-butler |
+| caveman | christopher-walken | conspiracy-theorist |
+| cowboy | dolly-parton | drill-sergeant |
+| enthusiastic-intern | flanders | gandalf |
+| godfather | gordon-ramsay | hal-9000 |
+| jeff-goldblum | mad-scientist | medieval-knight |
+| morgan-freeman | motivational-coach | mr-rogers |
+| noir-detective | old-man-yelling-at-cloud | passive-aggressive-coworker |
+| pirate | robot | schwarzenegger |
 | shakespeare | sherlock-holmes | snoop-dogg |
 | sports-commentator | steve-irwin | surfer |
-| vampire | yoda | zen-monk |
+| vampire | werner-herzog | yoda |
+| zen-monk | | |
 
 ## Add your own
 
