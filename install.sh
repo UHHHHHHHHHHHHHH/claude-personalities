@@ -2,7 +2,7 @@
 # Installs claude-personality globally so it works in ANY project.
 #
 # What it does:
-#   1. Copies personality files, picker script, and config to ~/.local/share/claude-personality/
+#   1. Symlinks personality files and picker script to ~/.local/share/claude-personality/
 #   2. Copies the /personality slash command to ~/.claude/commands/
 #   3. Adds a SessionStart hook to ~/.claude/settings.json (checks config before firing)
 #   4. Adds a scoped Bash permission so /personality can run without manual approval
@@ -20,12 +20,12 @@ PERM_ENTRY="Bash($DATA_DIR/get-personality.sh)"
 
 echo "Installing claude-personality..."
 
-# 1. Copy personality data + scripts
-echo "  -> Copying personalities to $DATA_DIR/"
+# 1. Symlink personality data + scripts (edits are reflected immediately)
+echo "  -> Linking personalities to $DATA_DIR/"
 mkdir -p "$DATA_DIR"
-cp "$SCRIPT_DIR/get-personality.sh" "$DATA_DIR/"
-chmod +x "$DATA_DIR/get-personality.sh"
-cp -r "$SCRIPT_DIR/personalities" "$DATA_DIR/"
+ln -sf "$SCRIPT_DIR/get-personality.sh" "$DATA_DIR/get-personality.sh"
+rm -rf "$DATA_DIR/personalities"
+ln -sf "$SCRIPT_DIR/personalities" "$DATA_DIR/personalities"
 
 # Copy config (don't overwrite if user already has one)
 if [[ ! -f "$DATA_DIR/config" ]]; then
@@ -205,5 +205,6 @@ echo "  /personality                      -> random personality"
 echo "  /personality pirate               -> pick a specific one"
 echo "  /personality --list               -> see all available"
 echo ""
-echo "To add custom personalities, drop .md files in: $DATA_DIR/personalities/"
+echo "Personalities and script are symlinked — edits take effect immediately."
+echo "To add custom personalities, drop .md files in: $SCRIPT_DIR/personalities/"
 echo "To uninstall, run: $SCRIPT_DIR/uninstall.sh"
