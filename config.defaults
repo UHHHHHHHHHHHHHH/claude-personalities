@@ -1,0 +1,6 @@
+# claude-personality configuration
+# Copy this to ~/.local/share/claude-personality/config to customize.
+
+# Load a random personality automatically when a new Claude Code session starts?
+# Set to "yes" to enable, "no" to disable (use /personality manually instead).
+auto_startup=yes
