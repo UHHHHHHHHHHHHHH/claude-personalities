@@ -40,6 +40,7 @@ cat > "$DATA_DIR/hook.sh" <<'HOOKEOF'
 #!/usr/bin/env bash
 # SessionStart hook — checks config before injecting a personality.
 # If auto_startup=no, exits silently. Use /personality manually instead.
+# Supports mode=chaos in config for multi-personality chaos mode.
 
 set -euo pipefail
 
@@ -47,17 +48,23 @@ DATA_DIR="$HOME/.local/share/claude-personality"
 CONFIG_FILE="$DATA_DIR/config"
 
 AUTO_STARTUP="no"
+MODE="normal"
 
 if [[ -f "$CONFIG_FILE" ]]; then
     source "$CONFIG_FILE"
     AUTO_STARTUP="${auto_startup:-no}"
+    MODE="${mode:-normal}"
 fi
 
 if [[ "$AUTO_STARTUP" != "yes" ]]; then
     exit 0
 fi
 
-exec "$DATA_DIR/get-personality.sh"
+if [[ "$MODE" == "chaos" ]]; then
+    exec "$DATA_DIR/get-personality.sh" --chaos
+else
+    exec "$DATA_DIR/get-personality.sh"
+fi
 HOOKEOF
 chmod +x "$DATA_DIR/hook.sh"
 
@@ -67,7 +74,7 @@ mkdir -p "$CLAUDE_DIR/commands"
 cat > "$CLAUDE_DIR/commands/personality.md" <<CMDEOF
 ---
 name: personality
-description: Re-roll a random personality or pick a specific one. Usage: /personality [name|--list]
+description: Re-roll a random personality or pick a specific one. Usage: /personality [name|--list|--chaos]
 ---
 
 !\`$DATA_DIR/get-personality.sh\`
@@ -76,6 +83,7 @@ The output above is a randomly selected personality.
 User's request: \$ARGUMENTS
 
 Follow these instructions:
+- If the user specified "--chaos" (with optional number, e.g. "--chaos 3"): ignore the personality above. Instead, run \`$DATA_DIR/get-personality.sh --chaos [N]\` using the Bash tool (where N is the number they specified, or omit for default). Use that chaos output as your personality instructions.
 - If the user specified "--list": ignore the personality above. Instead, list all available personalities by reading the filenames (strip the .md extension) in $DATA_DIR/personalities/ using the Glob tool.
 - If the user specified a personality name: ignore the random personality above. Instead, read $DATA_DIR/personalities/<name>.md using the Read tool and use that personality.
 - If no argument was given: use the random personality shown above.

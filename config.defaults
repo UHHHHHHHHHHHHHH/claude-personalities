@@ -4,3 +4,11 @@
 # Load a random personality automatically when a new Claude Code session starts?
 # Set to "yes" to enable, "no" to disable (use /personality manually instead).
 auto_startup=yes
+
+# Personality mode: "normal" = one personality, "chaos" = multiple personalities
+# In chaos mode, Claude switches between multiple personalities unpredictably,
+# even mid-sentence. Pure unhinged chaos.
+mode=normal
+
+# How many personalities to load in chaos mode (default: 5)
+chaos_count=5
