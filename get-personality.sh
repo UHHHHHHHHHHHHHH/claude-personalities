@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Picks a random personality (or multiple in chaos mode) and outputs it.
 # Usage:
-#   ./get-personality.sh              # random personality (respects config mode)
-#   ./get-personality.sh --chaos      # force chaos mode (one-time override)
-#   ./get-personality.sh --chaos 3    # chaos mode with custom count
+#   ./get-personality.sh                    # random personality (respects config)
+#   ./get-personality.sh --chaos            # force chaos mode (one-time override)
+#   ./get-personality.sh --chaos 3          # chaos mode with custom count
+#   ./get-personality.sh --set-default X    # set default personality
+#   ./get-personality.sh --clear-default    # clear default, go back to random
 
 set -euo pipefail
 
@@ -32,24 +34,75 @@ fi
 # Load config defaults
 MODE="normal"
 CHAOS_COUNT=5
+DEFAULT_PERSONALITY=""
 
 if [[ -f "$CONFIG_FILE" ]]; then
     source "$CONFIG_FILE"
     MODE="${mode:-normal}"
     CHAOS_COUNT="${chaos_count:-5}"
+    DEFAULT_PERSONALITY="${default_personality:-}"
 fi
 
 # CLI overrides
+if [[ "${1:-}" == "--list" ]]; then
+    for f in "${ALL_FILES[@]}"; do
+        basename "$f" .md
+    done
+    exit 0
+fi
+
+if [[ "${1:-}" == "--set-default" ]]; then
+    NAME="${2:-}"
+    if [[ -z "$NAME" ]]; then
+        echo "Error: Please specify a personality name. Usage: --set-default <name>" >&2
+        exit 1
+    fi
+    if [[ ! -f "$PERSONALITY_DIR/$NAME.md" ]]; then
+        echo "Error: Personality '$NAME' not found. Check available names in $PERSONALITY_DIR/" >&2
+        exit 1
+    fi
+    if [[ -f "$CONFIG_FILE" ]] && grep -q '^default_personality=' "$CONFIG_FILE"; then
+        sed -i "s/^default_personality=.*/default_personality=$NAME/" "$CONFIG_FILE"
+    else
+        echo "default_personality=$NAME" >> "$CONFIG_FILE"
+    fi
+    echo "Default personality set to '$NAME'. It will be used on every new session (unless in chaos mode)."
+    exit 0
+fi
+
+if [[ "${1:-}" == "--clear-default" ]]; then
+    if [[ -f "$CONFIG_FILE" ]] && grep -q '^default_personality=' "$CONFIG_FILE"; then
+        sed -i "s/^default_personality=.*/default_personality=/" "$CONFIG_FILE"
+    fi
+    echo "Default personality cleared. Sessions will use random selection again."
+    exit 0
+fi
+
 if [[ "${1:-}" == "--chaos" ]]; then
     MODE="chaos"
     if [[ -n "${2:-}" ]] && [[ "$2" =~ ^[0-9]+$ ]]; then
         CHAOS_COUNT="$2"
     fi
+elif [[ -n "${1:-}" ]]; then
+    # Treat any non-flag argument as a specific personality name
+    if [[ -f "$PERSONALITY_DIR/$1.md" ]]; then
+        SPECIFIC_PERSONALITY="$1"
+    else
+        echo "Error: Personality '$1' not found. Use --list to see available personalities." >&2
+        exit 1
+    fi
 fi
 
 # --- Normal mode: pick one ---
 if [[ "$MODE" != "chaos" ]]; then
-    CHOSEN="${ALL_FILES[RANDOM % ${#ALL_FILES[@]}]}"
+    # Priority: specific name > default > random
+    if [[ -n "${SPECIFIC_PERSONALITY:-}" ]]; then
+        CHOSEN="$PERSONALITY_DIR/$SPECIFIC_PERSONALITY.md"
+    elif [[ -n "$DEFAULT_PERSONALITY" ]] && [[ -f "$PERSONALITY_DIR/$DEFAULT_PERSONALITY.md" ]]; then
+        CHOSEN="$PERSONALITY_DIR/$DEFAULT_PERSONALITY.md"
+    else
+        CHOSEN="${ALL_FILES[RANDOM % ${#ALL_FILES[@]}]}"
+    fi
     PERSONALITY_NAME="$(basename "$CHOSEN" .md)"
 
     cat <<EOF
