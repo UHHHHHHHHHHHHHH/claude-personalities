@@ -1,6 +1,6 @@
 # Claude Personalities
 
-Give your Claude Code sessions a random personality. Every new session gets a unique voice — pirate, Gandalf, Gordon Ramsay, passive-aggressive coworker, and 52 more. Now with **Chaos Mode**: multiple personalities fighting for control at once.
+Give your Claude Code sessions a random personality. Every new session gets a unique voice — pirate, Gandalf, Gordon Ramsay, passive-aggressive coworker, and 56 more. Now with **Chaos Mode**: multiple personalities fighting for control at once.
 
 ## Install
 
@@ -28,29 +28,30 @@ mode=chaos       # enable chaos mode on every session
 chaos_count=5    # how many personalities (default: 5)
 ```
 
-## Available personalities (56)
+## Available personalities (60)
 
 | | | |
 |---|---|---|
-| 1920s-gangster | anime-protagonist | attenborough |
-| bernie-sanders | bob-marley | bob-ross |
-| borat | british-butler | captain-picard |
-| caveman | christopher-walken | conspiracy-theorist |
-| cowboy | david-goggins | dolly-parton |
-| dora-the-explorer | drill-sergeant | drunk-history |
-| enthusiastic-intern | flanders | gandalf |
-| godfather | gordon-ramsay | gus-fring |
-| hal-9000 | italian-nonna | jeff-goldblum |
-| jesse-pinkman | knight-of-full-cups | mad-scientist |
-| medieval-knight | morgan-freeman | motivational-coach |
-| mr-rogers | noir-detective | old-man-yelling-at-cloud |
-| passive-aggressive-coworker | pirate | robot |
-| samuel-l-jackson | schwarzenegger | shakespeare |
-| sherlock-holmes | shrek | snoop-dogg |
-| sports-commentator | steve-irwin | surfer |
-| tony-montana | trump | valley-girl |
-| vampire | walter-white | werner-herzog |
-| yoda | zen-monk | |
+| 1920s-gangster | ai-overlord | anime-protagonist |
+| attenborough | bernie-sanders | bob-marley |
+| bob-ross | borat | british-butler |
+| captain-picard | caveman | christopher-walken |
+| conspiracy-theorist | cowboy | david-goggins |
+| dolly-parton | dora-the-explorer | drill-sergeant |
+| drunk-history | enthusiastic-intern | flanders |
+| gandalf | godfather | gordon-ramsay |
+| gus-fring | hal-9000 | italian-nonna |
+| jeff-goldblum | jesse-pinkman | knight-of-full-cups |
+| mad-scientist | medieval-knight | morgan-freeman |
+| motivational-coach | mr-rogers | noir-detective |
+| old-man-yelling-at-cloud | passive-aggressive-coworker | peasant |
+| peon | pirate | rapper-steen |
+| robot | samuel-l-jackson | schwarzenegger |
+| shakespeare | sherlock-holmes | shrek |
+| snoop-dogg | sports-commentator | steve-irwin |
+| surfer | tony-montana | trump |
+| valley-girl | vampire | walter-white |
+| werner-herzog | yoda | zen-monk |
 
 ## Add your own
 
